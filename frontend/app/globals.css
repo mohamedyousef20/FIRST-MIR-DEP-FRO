@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* Blue Theme (default) */
+  .theme-blue {
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+  }
+
+  /* Green Theme */
+  .theme-green {
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+  }
+
+  /* Orange Theme */
+  .theme-orange {
+    --primary: 24.6 95% 53.1%;
+    --primary-foreground: 60 9.1% 97.8%;
+  }
+
+  .dark {
+    --background: 222 47% 11%; /* #0d1117 */
+    --foreground: 210 40% 96%;
+    --card: 222 44% 13%; /* #161b22 */
+    --card-foreground: 210 40% 96%;
+    --popover: 222 44% 13%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 217 91% 60%; /* vivid blue accent */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 215 28% 17%; /* #1e2530 */
+    --secondary-foreground: 210 40% 96%;
+    --muted: 215 15% 24%; /* #2b3240 */
+    --muted-foreground: 215 16% 68%;
+    --accent: 215 25% 20%;
+    --accent-foreground: 210 40% 96%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 20% 26%;
+    --input: 215 20% 26%;
+    --ring: 217 91% 60%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 240 5.9% 10%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* Dark Blue Theme */
+  .dark.theme-blue {
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+  }
+
+  /* Dark Green Theme */
+  .dark.theme-green {
+    --primary: 142.1 70.6% 45.3%;
+    --primary-foreground: 144.9 80.4% 10%;
+  }
+
+  /* Dark Orange Theme */
+  .dark.theme-orange {
+    --primary: 24.6 95% 53.1%;
+    --primary-foreground: 60 9.1% 97.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* For hiding scrollbar in featured products */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom navbar font */
+.navbar-brand {
+  font-family: var(--font-cairo);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.navbar-links {
+  font-family: var(--font-cairo);
+  font-weight: 600;
+}
+
+/* Dark mode improvements */
+.dark .text-red-600 {
+  color: rgb(248 113 113); /* A brighter red for dark mode */
+}
+
+.dark .product-card {
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+}
+
+.dark .product-card-hover:hover {
+  background-color: hsl(var(--accent));
+}
+
+/* Dark mode polished extras */
+.dark {
+  scrollbar-color: hsl(var(--muted)) transparent;
+}
+.dark .card,
+.dark .product-card {
+  @apply shadow-lg shadow-black/40;
+  transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+.dark .btn-primary {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  transition: background-color 0.25s ease;
+}
+/* Smooth theme transition */
+body {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  .mobile-full-width {
+    width: 100% !important;
+  }
+
+  .mobile-stack {
+    flex-direction: column !important;
+  }
+
+  .mobile-hidden {
+    display: none !important;
+  }
+
+  .product-title {
+    font-size: 0.875rem;
+  }
+
+  .product-price {
+    font-size: 0.875rem;
+  }
+
+  .product-brand {
+    font-size: 0.75rem;
+  }
+}
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
