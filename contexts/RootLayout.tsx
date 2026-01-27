@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { Cairo, Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { LanguageProvider } from "import { useLanguage } from "@/components/language-provider";"
+import { LanguageProvider, useLanguage } from "@/components/language-provider";
 import { ColorThemeProvider } from "@/components/color-theme-provider"
 import { StoreProvider } from "@/src/app/providers/StoreProvider"
 import { LayoutWrapper } from "./layout-wrapper"
