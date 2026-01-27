@@ -85,9 +85,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
+
 }
 
 if (process.env.NODE_ENV === "production") {
