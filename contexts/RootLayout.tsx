@@ -4,11 +4,11 @@ import { Cairo, Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider, useLanguage } from "@/components/language-provider";
-import { ColorThemeProvider } from "@/components/color-theme-provider"
-import { StoreProvider } from "@/src/app/providers/StoreProvider"
-import { LayoutWrapper } from "./layout-wrapper"
-import { MainNav } from "@/components/main-nav"
-import { SiteFooter } from "@/components/site-footer"
+import { ColorThemeProvider } from "@/components/color-theme-provider";
+import { StoreProvider } from "@/src/app/providers/StoreProvider";
+import { LayoutWrapper } from "@/app/layout-wrapper";
+import { MainNav } from "@/components/main-nav";
+import { SiteFooter } from "@/components/site-footer";
 import { Toaster } from "sonner"
 import { SocketProvider } from "@/contexts/SocketProvider"
 import { getUserServer } from "@/src/lib/getUserServer"
