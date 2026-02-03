@@ -55,7 +55,7 @@ const MirvoryLogo = ({
 
         {/* Main Logo Image */}
         <Image
-          src="/mirvory-logo.png" // You'll need to place your image in the public folder
+          src="https://res.cloudinary.com/dkmrrisek/image/upload/v1770138944/ChatGPT_Image_3_%D9%81%D8%A8%D8%B1%D8%A7%D9%8A%D8%B1_2026_07_14_42_%D9%85_niyibz.png" // You'll need to place your image in the public folder
           alt="Mirvora Logo"
           width={width}
           height={height}
