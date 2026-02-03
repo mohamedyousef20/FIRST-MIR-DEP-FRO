@@ -6,8 +6,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, Plus, Edit, Trash2, MapPin, Clock } from "lucide-react";
+import { useState } from "react";
+
+interface PickupPoint {
+    _id?: string;
+    stationName: string;
+    location: { type: 'Point'; coordinates: [number, number] };
+    address: string;
+    phone: string;
+    workingHours: string;
+    status: string;
+}
 
 interface PickupPointsTabProps {
+    sellers?: any[];
     pickupPoints: any[];
     loadingPickupPoints: boolean;
     showAddPickupPoint: boolean;
@@ -16,20 +28,23 @@ interface PickupPointsTabProps {
     setSelectedPickupPoint: (point: any) => void;
     handleSubmitPickupPoint: (e: React.FormEvent) => void;
     handleDeletePickupPoint: (id: string) => void;
+    fetchPickupPoints?: () => Promise<any>;
     isArabic: boolean;
 }
 
 export function PickupPointsTab({
+    sellers,
     pickupPoints,
     loadingPickupPoints,
     showAddPickupPoint,
     setShowAddPickupPoint,
-    selectedPickupPoint,
-    setSelectedPickupPoint,
     handleSubmitPickupPoint,
     handleDeletePickupPoint,
+    fetchPickupPoints,
     isArabic
 }: PickupPointsTabProps) {
+    const [selectedPickupPoint, setSelectedPickupPoint] = useState<PickupPoint | null>(null);
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center mb-6">
@@ -79,7 +94,7 @@ export function PickupPointsTab({
                                     <Input
                                         id="stationName"
                                         value={selectedPickupPoint?.stationName || ''}
-                                        onChange={(e) => setSelectedPickupPoint(prev => prev ? ({
+                                        onChange={(e) => setSelectedPickupPoint((prev: PickupPoint | null) => prev ? ({
                                             ...prev,
                                             stationName: e.target.value
                                         }) : null)}
@@ -94,7 +109,7 @@ export function PickupPointsTab({
                                     <Input
                                         id="address"
                                         value={selectedPickupPoint?.address || ''}
-                                        onChange={(e) => setSelectedPickupPoint(prev => prev ? ({
+                                        onChange={(e) => setSelectedPickupPoint((prev: PickupPoint | null) => prev ? ({
                                             ...prev,
                                             address: e.target.value
                                         }) : null)}
@@ -110,7 +125,7 @@ export function PickupPointsTab({
                                     <Input
                                         id="workingHours"
                                         value={selectedPickupPoint?.workingHours || ''}
-                                        onChange={(e) => setSelectedPickupPoint(prev => prev ? ({
+                                        onChange={(e) => setSelectedPickupPoint((prev: PickupPoint | null) => prev ? ({
                                             ...prev,
                                             workingHours: e.target.value
                                         }) : null)}
@@ -126,7 +141,7 @@ export function PickupPointsTab({
                                         id="phone"
                                         type="tel"
                                         value={selectedPickupPoint?.phone || ''}
-                                        onChange={(e) => setSelectedPickupPoint(prev => prev ? ({
+                                        onChange={(e) => setSelectedPickupPoint((prev: PickupPoint | null) => prev ? ({
                                             ...prev,
                                             phone: e.target.value
                                         }) : null)}
@@ -142,7 +157,7 @@ export function PickupPointsTab({
                                         type="number"
                                         step="any"
                                         value={selectedPickupPoint?.location?.coordinates[1] || ''}
-                                        onChange={(e) => setSelectedPickupPoint(prev => prev ? ({
+                                        onChange={(e) => setSelectedPickupPoint((prev: PickupPoint | null) => prev ? ({
                                             ...prev,
                                             location: {
                                                 type: 'Point',
@@ -165,7 +180,7 @@ export function PickupPointsTab({
                                         type="number"
                                         step="any"
                                         value={selectedPickupPoint?.location?.coordinates[0] || ''}
-                                        onChange={(e) => setSelectedPickupPoint(prev => prev ? ({
+                                        onChange={(e) => setSelectedPickupPoint((prev: PickupPoint | null) => prev ? ({
                                             ...prev,
                                             location: {
                                                 type: 'Point',
@@ -185,7 +200,7 @@ export function PickupPointsTab({
                                     </Label>
                                     <Select
                                         value={selectedPickupPoint?.status || 'active'}
-                                        onValueChange={(value) => setSelectedPickupPoint(prev => prev ? ({
+                                        onValueChange={(value) => setSelectedPickupPoint((prev: PickupPoint | null) => prev ? ({
                                             ...prev,
                                             status: value
                                         }) : null)}

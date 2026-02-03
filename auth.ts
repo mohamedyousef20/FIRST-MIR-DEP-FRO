@@ -1,9 +1,10 @@
-import { getServerSession as originalGetServerSession } from 'next-auth';
+import NextAuth from 'next-auth';
+import type { Session } from 'next-auth';
 import { authOptions } from './app/api/auth/[...nextauth]/route';
 
-export const getServerSession = () => {
-  return originalGetServerSession(authOptions);
-};
+const { auth } = NextAuth(authOptions);
+
+export const getServerSession = (): Promise<Session | null> => auth();
 
 export const getCurrentUser = async () => {
   const session = await getServerSession();

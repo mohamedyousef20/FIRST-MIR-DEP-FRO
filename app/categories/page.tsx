@@ -5,8 +5,15 @@ import Link from 'next/link';
 import { categoryService } from '@/lib/api';
 import { MirvoryPageLoader } from '@/components/MirvoryLoader';
 
+interface Category {
+  _id: string;
+  name: string;
+  nameEn: string;
+  [key: string]: any; // allow additional fields
+}
+
 const CategoriesPage = () => {
-  const [categories, setCategories] = useState<[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [productsCount, setProductsCount] = useState<{ [key: string]: number }>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -83,7 +90,7 @@ const CategoriesPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {categories.map((category) => (
+          {categories.map((category: Category) => (
             <Link
               key={category._id}
               href={`/categories/${category._id}/products`}
@@ -91,7 +98,6 @@ const CategoriesPage = () => {
             >
               <CategoryCard
                 category={category}
-                productsCount={productsCount[category._id] || 0}
                 className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer h-full"
               />
             </Link>

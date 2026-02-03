@@ -1,8 +1,14 @@
 import React from 'react';
-import { apiService } from '../../lib/api';
-import { toast } from 'react-toastify';
+import { apiService } from '@/lib/api/apiService';
+import { toast } from 'sonner';
 
-const CashPayment = ({ orderId, totalAmount, onClose }) => {
+interface CashPaymentProps {
+  orderId: string;
+  totalAmount: number;
+  onClose: () => void;
+}
+
+const CashPayment: React.FC<CashPaymentProps> = ({ orderId, totalAmount, onClose }) => {
   const [loading, setLoading] = React.useState(false);
 
   const handlePayment = async () => {

@@ -29,7 +29,7 @@ export default function PasswordResetVerify() {
   const searchParams = useSearchParams();
   const emailParam = searchParams.get('email') || '';
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
   });
 

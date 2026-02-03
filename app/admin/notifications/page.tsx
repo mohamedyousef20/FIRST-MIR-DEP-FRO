@@ -79,7 +79,7 @@ export default function NotificationsPage() {
                 }));
 
             setAllUsers(filteredUsers)
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error fetching users:', error)
             toast.error(isArabic ? "فشل في جلب المستخدمين" : "Failed to fetch users")
         } finally {
@@ -128,7 +128,7 @@ export default function NotificationsPage() {
             }));
 
             setSearchResults(filteredResults)
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error searching users:', error)
             toast.error(isArabic ? "فشل في البحث" : "Search failed")
             setSearchResults([])
@@ -229,7 +229,7 @@ export default function NotificationsPage() {
             setHasSearched(false)
 
             // Optionally redirect back to admin dashboard
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error sending notification:', error)
             toast.error(isArabic ? "فشل إرسال الإشعارات" : "Failed to send notifications")
         } finally {

@@ -25,7 +25,10 @@ interface OverviewTabProps {
     } | null;
     isArabic: boolean;
     loadingEarnings?: boolean;
+    errorEarnings?: string | null;
     dashboardCounters?: DashboardCounters;
+    fetchPlatformEarnings?: () => Promise<any>;
+    fetchDashboardCounters?: () => Promise<any>;
 }
 
 export function OverviewTab({
@@ -36,7 +39,10 @@ export function OverviewTab({
     platformEarnings,
     isArabic,
     loadingEarnings = false,
-    dashboardCounters
+    errorEarnings,
+    dashboardCounters,
+    fetchPlatformEarnings,
+    fetchDashboardCounters
 }: OverviewTabProps) {
 
     const safeProducts = Array.isArray(products) ? products : [];

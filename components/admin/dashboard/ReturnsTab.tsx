@@ -18,7 +18,8 @@ interface ReturnsTabProps {
     handleProcessReturn: (returnId: string) => void;
     handleFinishedReturn: (returnId: string) => void;
     handleDeleteReturn: (returnId: string) => void;
-    handleUpdateReturnStatus: (returnId: string, status: string) => void;
+    handleUpdateReturnStatus?: (returnId: string, status: string) => void;
+    fetchReturnRequests?: () => Promise<any>;
 }
 
 export function ReturnsTab({
@@ -33,7 +34,8 @@ export function ReturnsTab({
     handleProcessReturn,
     handleFinishedReturn,
     handleDeleteReturn,
-    handleUpdateReturnStatus
+    handleUpdateReturnStatus,
+    fetchReturnRequests
 }: ReturnsTabProps) {
     const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
     const [statusLoading, setStatusLoading] = useState<string | null>(null);
@@ -101,7 +103,7 @@ export function ReturnsTab({
                 };
             case 'finished':
                 return {
-                    variant: "success" as const,
+                    variant: "default" as const,
                     color: "bg-green-100 text-green-800 hover:bg-green-100",
                     icon: <PackageCheck className="h-3 w-3" />,
                     text: isArabic ? "مكتمل" : "Finished"

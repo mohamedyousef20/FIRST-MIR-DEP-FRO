@@ -113,7 +113,7 @@ export default function ReturnPageRequest() {
       await returnService.createReturnRequest(returnData);
       toast.success(isArabic ? "تم إرسال طلب الإرجاع بنجاح" : "Return request submitted successfully")
       router.push('/returns');
-    } catch (error) {
+    } catch (error: any) {
 
       const errorMessage = error.response?.data?.message ||
         (isArabic ? "حدث خطأ أثناء إرسال طلب" : "Failed to send notification");

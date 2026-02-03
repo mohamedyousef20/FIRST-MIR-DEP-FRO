@@ -23,7 +23,7 @@ type ExtendedToken = JWT & {
   refreshToken?: string;
 };
 
-const config: NextAuthConfig = {
+export const authOptions: NextAuthConfig = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -90,4 +90,4 @@ const config: NextAuthConfig = {
   },
 };
 
-export const { handlers: { GET, POST } } = NextAuth(config);
+export const { handlers: { GET, POST } } = NextAuth(authOptions);

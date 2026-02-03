@@ -413,7 +413,6 @@ export function AdminDashboard() {
             returnRequests={returnRequests}
             loadingReturns={loadingReturns}
             errorReturns={errorReturns}
-            isArabic={isArabic}
             pagination={{ currentPage: returnsPage, totalPages: returnsPages }}
             onPageChange={setReturnsPage}
             isArabic={isArabic}

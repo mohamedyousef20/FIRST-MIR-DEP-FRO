@@ -69,6 +69,9 @@ interface OrderDetails {
     deliveryStatus: DeliveryStatus
     subtotal: number
     discount: number
+    coupon?: {
+        discountAmount: number
+    }
     shippingFee: number
     total: number
     payoutProcessed: boolean
@@ -90,7 +93,9 @@ export default function OrderDetailsPage() {
         const fetchOrderDetails = async () => {
             try {
                 setLoading(true)
-                const response = await orderService.getOrderById(id);
+                const idStr = Array.isArray(id) ? id[0] : id;
+                if (!idStr) throw new Error('Invalid order id');
+                const response = await orderService.getOrderById(idStr as string);
                 //console.log('API Response:', response);
 
                 if (response?.data) {
@@ -359,7 +364,7 @@ export default function OrderDetailsPage() {
                                         </div>
                                         <div className="flex justify-between text-green-600">
                                             <span>الخصم</span>
-                                            <span>-{order.coupon?.discountAmount} ج.م</span>
+                                            <span>-{order.discount} ج.م</span>
                                         </div>
                                         <div className="flex justify-between">
                                             <span>الشحن</span>

@@ -28,6 +28,8 @@ export interface Notification {
   isRead: boolean;
   createdAt: string;
   updatedAt: string;
+  status?: 'sent' | 'failed';
+  userIds?: string[];
 }
 
 interface SendNotificationData {

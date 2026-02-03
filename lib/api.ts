@@ -228,6 +228,8 @@ export const userService = {
   // Toggle trusted status for a seller (admin only)
   setSellerTrusted: (id: string, trusted: boolean = true) =>
     api.patch(`/api/users/admin/seller/${id}/trust`, { trusted }),
+  searchUsers: (query: string, role?: string) =>
+    api.get('/api/users', { params: { search: query, role } }),
   deleteUser: (id: string) => api.delete(`/api/users`, { data: { userId: id } }),
 };
 

@@ -49,7 +49,16 @@ import {
 import Image from 'next/image'
 
 // مكون عنصر الخطوة في عملية الدفع
-const CheckoutStep = ({ number, title, description, isActive, isCompleted, icon: Icon }) => (
+interface CheckoutStepProps {
+  number: number;
+  title: string;
+  description: string;
+  isActive: boolean;
+  isCompleted: boolean;
+  icon?: React.ComponentType<{ className?: string }>;
+}
+
+const CheckoutStep: React.FC<CheckoutStepProps> = ({ number, title, description, isActive, isCompleted, icon: Icon }) => (
     <div className={`flex items-center space-x-4 p-3 rounded-lg transition-all ${isActive ? 'bg-primary/10 border border-primary/20' : ''}`}>
         <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${isCompleted ? 'bg-green-500 text-white' : isActive ? 'bg-primary text-white' : 'bg-gray-100 text-gray-400'}`}>
             {isCompleted ? <Check className="h-5 w-5" /> : (Icon ? <Icon className="h-5 w-5" /> : <span className="font-semibold">{number}</span>)}
@@ -175,7 +184,7 @@ console.log(user,'user454')
                     const loadedAddresses = res.data.data
                     setAddresses(loadedAddresses)
 
-                    const defaultAddress = loadedAddresses.find(addr => addr.isDefault)
+                    const defaultAddress = loadedAddresses.find((addr: any) => addr.isDefault)
                     if (defaultAddress) {
                         setSelectedAddressId(defaultAddress._id)
                         setRecipientInfo(prev => ({

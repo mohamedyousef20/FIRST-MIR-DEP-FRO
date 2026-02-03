@@ -13,8 +13,13 @@ export const pickupPointService = {
     }
   },
 
+  // Legacy alias for admin components
+  getAll: async () => {
+    return await pickupPointService.getPickupPoints();
+  },
+
   // Create a new pickup point (admin)
-  create: async (pickupPointData: Omit<PickupPoint, '_id' | 'id'>): Promise<PickupPoint> => {
+  create: async (pickupPointData: Partial<PickupPoint>): Promise<PickupPoint> => {
     try {
       const response = await apiService.post<PickupPoint>('/pickup', pickupPointData);
       return response.data as any;

@@ -19,5 +19,6 @@ export function useLanguage() {
   return {
     language,
     toggleLanguage,
+    isArabic: language === 'ar',
   };
 }

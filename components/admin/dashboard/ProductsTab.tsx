@@ -200,7 +200,7 @@ export function ProductsTab({
                                     </TableCell>
                                     <TableCell>
                                         <Badge
-                                            variant={product.isApproved ? "success" : "warning"}
+                                            variant={product.isApproved ? "default" : "secondary"}
                                             className={
                                                 product.isApproved
                                                     ? "bg-green-100 text-green-800 hover:bg-green-200 border-green-200 flex items-center gap-1"

@@ -154,7 +154,7 @@ export function MainNav() {
         //console.log(enhancedCartItems, 'enhancedCartItems')
         const cartCount = cartResponse.data?.count || 0
         setCounts(prev => ({ ...prev, cart: cartCount }))
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error fetching cart count:', error)
         setCounts(prev => ({ ...prev, cart: 0 }))
       }
@@ -164,7 +164,7 @@ export function MainNav() {
         const wishlistResponse = await wishlistService.getWishlistCount()
         const wishlistCount = wishlistResponse.data?.count || 0
         setCounts(prev => ({ ...prev, wishlist: wishlistCount }))
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error fetching wishlist count:', error)
         setCounts(prev => ({ ...prev, wishlist: 0 }))
       }
@@ -187,14 +187,14 @@ export function MainNav() {
           console.error('API returned error:', notificationResponseCount.data, notificationResponse.data)
           setCounts(prev => ({ ...prev, notifications: 0 }))
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error fetching notification count:', error)
         console.error('Error response:', error.response?.data)
         setCounts(prev => ({ ...prev, notifications: 0 }))
       }
 
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching counts:', error)
     } finally {
       setLoading(prev => ({ ...prev, cart: false, wishlist: false, notifications: false }))
@@ -277,7 +277,7 @@ export function MainNav() {
       }))
 
       toast.success(language === "ar" ? "تمت إزالة المنتج من السلة" : "Product removed from cart")
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to remove item from cart:', error)
       toast.error(language === "ar" ? "حدث خطأ أثناء إزالة المنتج" : "Failed to remove product")
     } finally {
@@ -652,7 +652,7 @@ export function MainNav() {
                             await notificationService.markAllAsRead();
                             fetchCounts();
                             toast.success(language === "ar" ? "تم تحديد الكل كمقروء" : "All notifications marked as read");
-                          } catch (error) {
+                          } catch (error: any) {
                             console.error('Error marking notifications as read:', error);
                             toast.error(language === "ar" ? "حدث خطأ" : "An error occurred");
                           }
@@ -680,7 +680,7 @@ export function MainNav() {
                               try {
                                 await notificationService.markAsRead(notification._id);
                                 fetchCounts();
-                              } catch (error) {
+                              } catch (error: any) {
                                 console.error('Error marking notification as read:', error);
                               }
                             }

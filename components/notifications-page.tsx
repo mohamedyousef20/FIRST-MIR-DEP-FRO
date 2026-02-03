@@ -7,6 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Bell, Package, Tag, Percent, AlertCircle } from 'lucide-react';
+
+interface Notification {
+  _id: string;
+  type: string;
+  title?: string;
+  message?: string;
+  link?: string;
+  isRead: boolean;
+  createdAt: string | number | Date;
+}
+
 import { formatDistanceToNow } from 'date-fns';
 import { toast } from 'sonner';
 import { notificationService } from '@/lib/api';
@@ -14,7 +25,7 @@ import { MirvoryPageLoader } from './MirvoryLoader';
 
 export function NotificationsPage() {
   const { language } = useLanguage();
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [activeTab, setActiveTab] = useState('all');
   const [loading, setLoading] = useState(true);
 

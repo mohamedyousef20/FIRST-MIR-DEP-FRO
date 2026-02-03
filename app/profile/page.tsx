@@ -97,6 +97,8 @@ import {
     Calendar,
     Globe,
     Wallet,
+    Clock,
+    Flag,
     Building,
     Home,
     Briefcase,
@@ -163,6 +165,36 @@ const Profile = () => {
             }
         }
     });
+
+    // preference helpers
+    const handlePreferenceChange = (
+        key: 'language' | 'currency',
+        value: string
+    ) => {
+        setFormData(prev => ({
+            ...prev,
+            preferences: {
+                ...prev.preferences,
+                [key]: value
+            }
+        }));
+    };
+
+    const handleNotificationChange = (
+        key: 'email' | 'sms' | 'push',
+        value: boolean
+    ) => {
+        setFormData(prev => ({
+            ...prev,
+            preferences: {
+                ...prev.preferences,
+                notifications: {
+                    ...prev.preferences.notifications,
+                    [key]: value
+                }
+            }
+        }));
+    };
 
     const [addressForm, setAddressForm] = useState({ ...INITIAL_ADDRESS_FORM });
     const [passwordForm, setPasswordForm] = useState({

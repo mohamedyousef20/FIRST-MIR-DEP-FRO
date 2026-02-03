@@ -36,8 +36,8 @@ import {
   X,
   RefreshCw,
 } from 'lucide-react';
-import { useLanguage } from '@/hooks/use-language';
-import { orderService } from '@/lib/api/services/orderService';
+import { useLanguage } from '@/components/language-provider';
+import { orderService, Order } from '@/lib/api/services/orderService';
 import { toast } from 'sonner';
 
 const statusStyles = {
@@ -67,7 +67,7 @@ const statusLabels = {
 export function OrdersTable() {
   const { language } = useLanguage();
   const isArabic = language === 'ar';
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -90,13 +90,13 @@ export function OrdersTable() {
   };
 
   const handlePrint = (orderId: string) => {
-    // Implement print functionality
-    //console.log('Printing order:', orderId);
     toast.info(isArabic ? 'جاري تحضير الفاتورة للطباعة...' : 'Preparing invoice for printing...');
   };
 
-  const filteredOrders = orders.filter((order: any) => {
-    const matchesSearch = order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  const filteredOrders = orders.filter((order) => {
+    const id = order.id ?? order._id;
+
+    const matchesSearch = id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.customer?.name?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
     return matchesSearch && matchesStatus;
@@ -174,89 +174,78 @@ export function OrdersTable() {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredOrders.map((order: any) => (
-                <TableRow key={order.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                  <TableCell className="font-medium">
-                    <div className="flex items-center">
-                      <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800 text-xs font-medium mr-2">
-                        {order.id.slice(-4)}
-                      </span>
-                      <span>#{order.id}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="font-medium">{order.customer?.name || 'N/A'}</div>
-                    <div className="text-sm text-gray-500">{order.customer?.email || ''}</div>
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    <div className="text-sm text-gray-500">
-                      {new Date(order.createdAt).toLocaleDateString()}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right font-medium">
-                    ${order.totalAmount?.toFixed(2) || '0.00'}
-                  </TableCell>
-                  <TableCell>
-                    <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusStyles[order.status as keyof typeof statusStyles] || statusStyles.pending
-                      }`}>
-                      {statusIcons[order.status as keyof typeof statusIcons] || statusIcons.pending}
-                      <span>
-                        {isArabic
-                          ? statusLabels[order.status as keyof typeof statusLabels]?.ar || statusLabels.pending.ar
-                          : statusLabels[order.status as keyof typeof statusLabels]?.en || statusLabels.pending.en}
-                      </span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end space-x-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-gray-600 hover:text-blue-600 hover:bg-blue-50"
-                        onClick={() => {
-                          // View order details
-                          //console.log('View order:', order.id);
-                        }}
-                      >
-                        <Eye className="h-4 w-4" />
-                        <span className="sr-only">{isArabic ? 'عرض التفاصيل' : 'View details'}</span>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-gray-600 hover:text-gray-800 hover:bg-gray-100"
-                        onClick={() => handlePrint(order.id)}
-                      >
-                        <Printer className="h-4 w-4" />
-                        <span className="sr-only">{isArabic ? 'طباعة الفاتورة' : 'Print invoice'}</span>
-                      </Button>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-gray-600 hover:text-gray-800 hover:bg-gray-100"
-                          >
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">{isArabic ? 'المزيد' : 'More'}</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-48">
-                          <DropdownMenuItem>
-                            {isArabic ? 'تحديث الحالة' : 'Update Status'}
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            {isArabic ? 'إرسال تحديث' : 'Send Update'}
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">
-                            {isArabic ? 'إلغاء الطلب' : 'Cancel Order'}
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
+              filteredOrders.map((order) => {
+                const id = order.id ?? order._id;
+                return (
+                  <TableRow key={id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                    <TableCell className="font-medium">
+                      <div className="flex items-center">
+                        <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-800 text-xs font-medium mr-2">
+                          {id.slice(-4)}
+                        </span>
+                        <span>#{id}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium">{order.customer?.name || 'N/A'}</div>
+                      <div className="text-sm text-gray-500">{order.customer?.email || ''}</div>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      <div className="text-sm text-gray-500">
+                        {new Date(order.createdAt).toLocaleDateString()}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right font-medium">
+                      ${order.totalAmount?.toFixed(2) || '0.00'}
+                    </TableCell>
+                    <TableCell>
+                      <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusStyles[order.status as keyof typeof statusStyles] || statusStyles.pending}`}>
+                        {statusIcons[order.status as keyof typeof statusIcons] || statusIcons.pending}
+                        <span>
+                          {isArabic
+                            ? statusLabels[order.status as keyof typeof statusLabels]?.ar || statusLabels.pending.ar
+                            : statusLabels[order.status as keyof typeof statusLabels]?.en || statusLabels.pending.en}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end space-x-2">
+                        <Button
+                          variant="ghost"
+                          className="h-8 w-8 text-gray-600 hover:text-gray-800 hover:bg-gray-100"
+                          onClick={() => handlePrint(id)}
+                        >
+                          <Printer className="h-4 w-4" />
+                          <span className="sr-only">{isArabic ? 'طباعة الفاتورة' : 'Print invoice'}</span>
+                        </Button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-gray-600 hover:text-gray-800 hover:bg-gray-100"
+                            >
+                              <MoreHorizontal className="h-4 w-4" />
+                              <span className="sr-only">{isArabic ? 'المزيد' : 'More'}</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-48">
+                            <DropdownMenuItem>
+                              {isArabic ? 'تحديث الحالة' : 'Update Status'}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              {isArabic ? 'إرسال تحديث' : 'Send Update'}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="text-red-600">
+                              {isArabic ? 'إلغاء الطلب' : 'Cancel Order'}
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
             )}
           </TableBody>
         </Table>

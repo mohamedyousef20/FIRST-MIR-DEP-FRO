@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 import { addressService } from '@/lib/api';
 import { toast } from 'react-hot-toast';
-import { FiEdit, FiTrash2, FiCheck, FiPlus } from 'react-icons/fi';
-import AddressForm from './AddressForm';
+import { Edit, Trash2, Check, Plus } from 'lucide-react';
+import AddressFormComponent from './AddressForm';
+const AddressForm = AddressFormComponent as any;
 
 interface AddressListProps {
   onSelect?: (address: any) => void;
@@ -29,7 +30,7 @@ export default function AddressList({
       setLoading(true);
       const response = await addressService.getAddresses();
       setAddresses(response.data);
-    } catch (error) {
+    } catch (error: any) {
       toast.error('Failed to load addresses');
     } finally {
       setLoading(false);
@@ -47,7 +48,7 @@ export default function AddressList({
       await addressService.deleteAddress(id);
       toast.success('Address deleted successfully');
       fetchAddresses();
-    } catch (error) {
+    } catch (error: any) {
       toast.error('Failed to delete address');
     }
   };
@@ -57,7 +58,7 @@ export default function AddressList({
       await addressService.setDefaultAddress(id);
       toast.success('Default address updated');
       fetchAddresses();
-    } catch (error) {
+    } catch (error: any) {
       toast.error('Failed to update default address');
     }
   };
@@ -83,7 +84,7 @@ export default function AddressList({
           onClick={() => setShowForm(true)}
           className="btn btn-primary btn-outline w-full md:w-auto"
         >
-          <FiPlus className="mr-2" /> Add New Address
+          <Plus className="mr-2" /> Add New Address
         </button>
       )}
 
@@ -139,18 +140,18 @@ export default function AddressList({
                             setShowForm(true);
                           }}
                         >
-                          <FiEdit className="text-blue-500" /> Edit
+                          <Edit className="text-blue-500" /> Edit
                         </button>
                       </li>
                       <li>
                         <button onClick={() => handleDelete(address._id)}>
-                          <FiTrash2 className="text-red-500" /> Delete
+                          <Trash2 className="text-red-500" /> Delete
                         </button>
                       </li>
                       {!address.isDefault && (
                         <li>
                           <button onClick={() => handleSetDefault(address._id)}>
-                            <FiCheck className="text-green-500" /> Set as Default
+                            <Check className="text-green-500" /> Set as Default
                           </button>
                         </li>
                       )}
@@ -191,7 +192,7 @@ export default function AddressList({
               onClick={() => setShowForm(true)}
               className="btn btn-primary btn-outline"
             >
-              <FiPlus className="mr-2" /> Add Your First Address
+              <Plus className="mr-2" /> Add Your First Address
             </button>
           )}
         </div>

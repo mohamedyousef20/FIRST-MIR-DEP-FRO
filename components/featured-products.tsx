@@ -12,6 +12,7 @@ import { toast } from "sonner"
 import { ProductCard } from "./ProductCard"
 
 interface Product {
+  _id?: string;
   id: number;
   title: string;
   nameEn: string;
@@ -22,6 +23,7 @@ interface Product {
   count: number;
   isNew?: boolean;
   brand?: string;
+  quantity?: number;
 }
 
 interface FeaturedProductsProps {
@@ -47,13 +49,13 @@ export function FeaturedProducts({ title }: FeaturedProductsProps) {
         if (response.data) {
           setProducts(response?.data.products);
         } else {
-          setError(t('products.loadError'));
-          toast.error(t('فشل تحميل المنتجات'));
+          setError((t as any)('products.loadError'));
+          toast.error(language === 'ar' ? 'فشل تحميل المنتجات' : 'Failed to load products');
         }
       } catch (err) {
         console.error('Error fetching featured products:', err);
-        setError(t('products.loadError'));
-        toast.error(t('فشل تحميل المنتجات'));
+        setError((t as any)('products.loadError'));
+        toast.error(language === 'ar' ? 'فشل تحميل المنتجات' : 'Failed to load products');
       } finally {
         setLoading(false);
       }
@@ -78,10 +80,10 @@ export function FeaturedProducts({ title }: FeaturedProductsProps) {
       const newFavorites = new Set(prev);
       if (newFavorites.has(productId)) {
         newFavorites.delete(productId);
-        toast.success(t('wishlist.removed'));
+        toast.success((t as any)('wishlist.removed'));
       } else {
         newFavorites.add(productId);
-        toast.success(t('wishlist.added'));
+        toast.success((t as any)('wishlist.added'));
       }
       return newFavorites;
     });
@@ -89,7 +91,7 @@ export function FeaturedProducts({ title }: FeaturedProductsProps) {
 
   const addToCart = (productId: number) => {
     // Implement your add to cart logic here
-    toast.success(t('cart.addSuccess'));
+    toast.success((t as any)('cart.addSuccess'));
   };//TODO
 
   return (
@@ -97,12 +99,12 @@ export function FeaturedProducts({ title }: FeaturedProductsProps) {
       <h2 className="text-xl font-semibold mb-6">{title}</h2>
 
       {/* Products Grid */}
-      {products?.length > 0 ? (
+      {products && products.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products?.map((product) => (
+          {products.map((product) => (
             <ProductCard
-              key={product._id}
-              product={product}
+              key={(product as any)._id ?? product.id}
+              product={product as any}
               language={language}
             />
           ))}

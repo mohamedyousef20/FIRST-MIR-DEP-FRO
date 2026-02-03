@@ -1223,6 +1223,11 @@ export function useAdminDashboard() {
         returnsPages,
         setReturnsPage,
 
+        // Earnings state
+        platformEarnings,
+        loadingEarnings,
+        errorEarnings,
+
         // Return requests state
         returnRequests,
         loadingReturns,

@@ -30,7 +30,7 @@ export function PickupPointsManager({ isArabic }: { isArabic: boolean }) {
     try {
       setIsLoading(true);
       const data = await pickupPointService.getAll();
-      setPickupPoints(data);
+      setPickupPoints(data as unknown as PickupPoint[]);
     } catch (error) {
       console.error('Error fetching pickup points:', error);
       toast.error(isArabic ? 'فشل في تحميل نقاط الاستلام' : 'Failed to load pickup points');

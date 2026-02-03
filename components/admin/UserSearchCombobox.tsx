@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useLanguage } from "@/components/language-provider";
-import { api } from "@/lib/api"
+import { apiService } from "@/lib/api/apiService"
 
 export interface User {
   _id: string
@@ -46,7 +46,7 @@ export function UserSearchCombobox({
   const searchUsers = useCallback(async (query: string) => {
     try {
       setIsLoading(true)
-      const response = await api.get(`/users/search?q=${query}${role ? `&role=${role}` : ''}`)
+      const response = await apiService.get(`/users/search?q=${query}${role ? `&role=${role}` : ''}`)
       setUsers(response.data.data || [])
     } catch (error) {
       console.error('Error searching users:', error)
@@ -64,7 +64,7 @@ export function UserSearchCombobox({
         return
       }
       try {
-        const response = await api.get(`/users?ids=${value.join(',')}`)
+        const response = await apiService.get(`/users?ids=${value.join(',')}`)
         setSelectedUsers(response.data.data || [])
       } catch (error) {
         console.error('Error fetching selected users:', error)

@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { productService } from "@/lib/api/services/productService";
 import { Plus, Image as ImageIcon, Upload } from "lucide-react";
+import Image from "next/image";
 
 interface AddProductProps {
   onProductAdded?: () => void;
@@ -40,7 +41,7 @@ interface TranslationKeys {
   beauty: string;
 }
 
-const translations: Record<'ar' | 'en', TranslationKeys> = {
+const translations: Record<"ar" | "en", TranslationKeys> = {
   ar: {
     productAdded: "تم إضافة المنتج بنجاح",
     addProductFailed: "فشل في إضافة المنتج",
@@ -88,10 +89,23 @@ const translations: Record<'ar' | 'en', TranslationKeys> = {
 export function AddProduct({ onProductAdded, isArabic = false }: AddProductProps) {
   const router = useRouter();
   const { language, t } = useLanguage();
-  const lang = isArabic ? "ar" : "en";
-  const translate = (key: string) => translations[lang][key];
+  type Lang = keyof typeof translations;
+  type TranslationKey = keyof TranslationKeys;
+  const lang: Lang = isArabic ? 'ar' : 'en';
+  const translate = (key: TranslationKey): string => translations[lang][key];
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  interface ProductFormData {
+    title: string;
+    titleEn: string;
+    description: string;
+    descriptionEn: string;
+    price: string;
+    stock: string;
+    category: string;
+    images: string[];
+  }
+
+  const [formData, setFormData] = useState<ProductFormData>({
     title: "",
     titleEn: isArabic ? "" : "",
     description: "",
@@ -147,7 +161,7 @@ export function AddProduct({ onProductAdded, isArabic = false }: AddProductProps
     const files = e.target.files;
     if (!files) return;
 
-    const imageUrls = [];
+    const imageUrls: string[] = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       // Here you would typically upload the file to your server

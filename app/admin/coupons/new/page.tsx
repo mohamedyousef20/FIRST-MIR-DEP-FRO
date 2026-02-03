@@ -17,6 +17,25 @@ import { CalendarIcon } from 'lucide-react';
 import { couponService } from '@/lib/api';
 import { MirvoryPageLoader } from '@/components/MirvoryLoader';
 
+// Global Coupon type available across the frontend
+// This is declared in a .d.ts file so importing is not required
+// Fields align with backend Coupon schema and frontend usage
+interface Coupon {
+  _id: string
+  code: string
+  discountType: 'percentage' | 'fixed'
+  discountValue: number
+  minPurchaseAmount?: number
+  maxDiscountAmount?: number
+  validFrom: string | Date
+  validUntil: string | Date
+  maxUses?: number
+  currentUses?: number
+  isActive: boolean
+  createdAt?: string | Date
+  updatedAt?: string | Date
+}
+
 export default function NewCouponPage() {
   const { language } = useLanguage();
   const isArabic = language === 'ar';

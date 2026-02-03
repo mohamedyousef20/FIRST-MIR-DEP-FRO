@@ -1,4 +1,10 @@
-import { Category } from '@/src/redux/slices/categorySlice';
+interface Category {
+  _id: string;
+  name: string;
+  description?: string;
+  image?: string;
+}
+
 import Link from 'next/link';
 
 interface CategoryCardProps {

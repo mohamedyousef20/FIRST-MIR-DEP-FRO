@@ -353,7 +353,7 @@ export default function ReturnDetailsPage() {
                                     </div>
                                     <div>
                                         <span className="font-medium text-gray-700">رقم المنتج:</span>
-                                        <p className="text-gray-600">{returnRequest.product.slice(-6).toUpperCase()}</p>
+                                        <p className="text-gray-600">{(returnRequest.product._id ?? '').slice(-6).toUpperCase()}</p>
                                     </div>
                                     <div>
                                         <span className="font-medium text-gray-700">رقم العنصر:</span>
@@ -390,7 +390,7 @@ export default function ReturnDetailsPage() {
                         <div className="space-y-3">
                             <div>
                                 <span className="font-medium text-gray-700">رقم الطلب الأصلي:</span>
-                                <p className="text-gray-600">#{returnRequest.order.slice(-6).toUpperCase()}</p>
+                                <p className="text-gray-600">#{(typeof returnRequest.order === 'string' ? returnRequest.order : (returnRequest.order._id ?? ''))?.slice(-6).toUpperCase()}</p>
                             </div>
                            
                             <div>

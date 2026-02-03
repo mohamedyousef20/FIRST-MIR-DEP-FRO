@@ -44,8 +44,11 @@ export default function SellerSignup() {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
 
     if (type === "checkbox") {
       setFormData({ ...formData, [name]: checked });
@@ -87,7 +90,7 @@ export default function SellerSignup() {
     return errors.length > 0 ? errors.join(". ") : null;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
@@ -99,19 +102,18 @@ export default function SellerSignup() {
 
     setLoading(true);
     try {
-      await authService.register({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
+      await (authService.register as any)({
+        name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
-        phone: formData.phone,
         password: formData.password,
         role: "seller",
-        vendorProfile: formData.vendorProfile
+        vendorProfile: formData.vendorProfile,
+        phone: formData.phone,
       });
 
       toast.success("تم إنشاء حساب البائع بنجاح، يرجى تفعيل البريد الإلكتروني");
       router.push("/verifyEmail");
-    } catch (e) {
+    } catch (e: any) {
       setError(e.response?.data?.message || "حدث خطأ غير متوقع");
     } finally {
       setLoading(false);

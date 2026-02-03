@@ -22,7 +22,7 @@ export function PickupPointForm({ initialData, onSuccess, onClose }: PickupPoint
   const { t } = useTranslation();
   const { toast } = useToast();
   const { isArabic } = useLanguage();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Partial<PickupPoint>>({
     stationName: initialData?.stationName || "",
     address: initialData?.address || "",
     phone: initialData?.phone || "",
@@ -30,7 +30,7 @@ export function PickupPointForm({ initialData, onSuccess, onClose }: PickupPoint
     location: initialData?.location || { type: "Point", coordinates: [0, 0] },
   });
 
-  const { mutate: createPickupPoint, isLoading: isCreating } = useMutation({
+  const { mutate: createPickupPoint, isPending: isCreating } = useMutation({
     mutationFn: pickupPointService.create,
     onSuccess: () => {
       toast({
@@ -49,8 +49,8 @@ export function PickupPointForm({ initialData, onSuccess, onClose }: PickupPoint
     },
   });
 
-  const { mutate: updatePickupPoint, isLoading: isUpdating } = useMutation({
-    mutationFn: (data: PickupPoint) => pickupPointService.update(initialData!.id, data),
+  const { mutate: updatePickupPoint, isPending: isUpdating } = useMutation({
+    mutationFn: (data: Partial<PickupPoint>) => pickupPointService.update(initialData!.id, data),
     onSuccess: () => {
       toast({
         title: isArabic ? "تم تحديث نقطة الاستلام بنجاح" : "Pickup point updated successfully",
@@ -71,9 +71,9 @@ export function PickupPointForm({ initialData, onSuccess, onClose }: PickupPoint
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (initialData) {
-      updatePickupPoint(formData);
+      updatePickupPoint(formData as Partial<PickupPoint>);
     } else {
-      createPickupPoint(formData);
+      createPickupPoint(formData as Partial<PickupPoint>);
     }
   };
 
@@ -148,13 +148,13 @@ export function PickupPointForm({ initialData, onSuccess, onClose }: PickupPoint
               <Input
                 id="latitude"
                 type="number"
-                value={formData.location.coordinates[0]}
+                value={formData.location?.coordinates?.[0] ?? 0}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
                     location: {
-                      ...formData.location,
-                      coordinates: [parseFloat(e.target.value), formData.location.coordinates[1]],
+                      type: "Point",
+                      coordinates: [parseFloat(e.target.value), formData.location?.coordinates?.[1] ?? 0],
                     },
                   })
                 }
@@ -166,13 +166,13 @@ export function PickupPointForm({ initialData, onSuccess, onClose }: PickupPoint
               <Input
                 id="longitude"
                 type="number"
-                value={formData.location.coordinates[1]}
+                value={formData.location?.coordinates?.[1] ?? 0}
                 onChange={(e) =>
                   setFormData({
                     ...formData,
                     location: {
-                      ...formData.location,
-                      coordinates: [formData.location.coordinates[0], parseFloat(e.target.value)],
+                      type: "Point",
+                      coordinates: [formData.location?.coordinates?.[0] ?? 0, parseFloat(e.target.value)],
                     },
                   })
                 }
@@ -186,13 +186,13 @@ export function PickupPointForm({ initialData, onSuccess, onClose }: PickupPoint
               type="button"
               variant="outline"
               onClick={onClose}
-              disabled={isCreating || isUpdating}
+              disabled={Boolean(isCreating) || Boolean(isUpdating)}
             >
               {isArabic ? "إلغاء" : "Cancel"}
             </Button>
             <Button
               type="submit"
-              disabled={isCreating || isUpdating}
+              disabled={Boolean(isCreating) || Boolean(isUpdating)}
             >
               {isCreating || isUpdating ? (
                 <>

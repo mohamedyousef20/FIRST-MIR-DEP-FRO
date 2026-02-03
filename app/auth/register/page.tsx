@@ -7,12 +7,49 @@ import Head from 'next/head';
 import { Eye, EyeOff, Mail, User, Lock, Phone, Building2, MapPin, Globe } from 'lucide-react';
 import { toast } from 'sonner';
 import { signIn } from 'next-auth/react';
-import { saveToken, saveUser, authService } from '@/lib/api';
+import { authService } from '@/lib/api';
+
+interface VendorProfile {
+  businessName: string;
+  businessType: string;
+  taxID: string;
+  description: string;
+}
+
+interface Preferences {
+  language: string;
+  currency: string;
+  notifications: {
+    email: boolean;
+    sms: boolean;
+    push: boolean;
+  };
+}
+
+interface Address {
+  governorate: string;
+  city: string;
+  addressLine?: string;
+}
+
+interface FormDataState {
+  [key: string]: any;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+  role: string;
+  vendorProfile: VendorProfile;
+  preferences: Preferences;
+  address: Address;
+}
 
 export default function Signup() {
 
   // Get dispatch function
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataState>({
     firstName: '',
     lastName: '',
     email: '',
@@ -25,6 +62,11 @@ export default function Signup() {
       businessType: 'individual',
       taxID: '',
       description: ''
+    },
+    address: {
+      governorate: '',
+      city: '',
+      addressLine: ''
     },
     preferences: {
       language: 'ar',
@@ -53,7 +95,9 @@ export default function Signup() {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
     // Handle nested objects
@@ -92,7 +136,7 @@ export default function Signup() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');

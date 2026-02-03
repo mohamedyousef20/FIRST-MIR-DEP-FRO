@@ -65,7 +65,7 @@ export function UsersTab({ users, isArabic, updatingUserId, pagination, onPageCh
                                     </TableCell>
                                     <TableCell>
                                         <Badge
-                                            variant={user.isActive ? "success" : "destructive"}
+                                            variant={user.isActive ? "default" : "destructive"}
                                             className={user.isActive
                                                 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
                                                 : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'

@@ -4,21 +4,14 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { notificationService } from "@/lib/api/services/notificationService";
+import { notificationService, Notification as ServiceNotification } from "@/lib/api/services/notificationService";
 import { useLanguage } from "@/components/language-provider";
 
-interface Notification {
-  id: string;
-  title: string;
-  message: string;
-  type: 'all' | 'specific';
-  userIds?: string[];
-  createdAt: string;
-  status: 'sent' | 'failed';
-}
+// Extend service Notification type with optional fields used here
+type Notification = ServiceNotification & { userIds?: string[]; id?: string; status?: 'sent' | 'failed' };
 
 export function NotificationHistory() {
-  const { language, t } = useLanguage();
+    const { language, t } = useLanguage();
   const isArabic = language === "ar";
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,8 +23,9 @@ export function NotificationHistory() {
   const fetchNotifications = async () => {
     try {
       setLoading(true);
-      const data = await notificationService.getNotificationHistory();
-      setNotifications(data);
+      const data = await notificationService.getNotifications();
+      // Cast to local Notification type to allow optional fields
+      setNotifications(data as Notification[]);
     } catch (error) {
       console.error('Failed to fetch notifications:', error);
     } finally {
@@ -75,10 +69,10 @@ export function NotificationHistory() {
             </TableHeader>
             <TableBody>
               {notifications.map((notification) => (
-                <TableRow key={notification.id}>
+                <TableRow key={notification._id}>
                   <TableCell>{notification.title}</TableCell>
                   <TableCell>
-                    {notification.type === 'all'
+                    {notification.type === 'ALL_USERS' || !notification.userIds || notification.userIds.length === 0
                       ? (isArabic ? "لجميع المستخدمين" : "All Users")
                       : (isArabic ? "مستخدمين محددين" : "Specific Users")}
                   </TableCell>
@@ -95,14 +89,16 @@ export function NotificationHistory() {
                     )}
                   </TableCell>
                   <TableCell>
-                    <Badge className={getStatusColor(notification.status)}>
+                    <Badge className={getStatusColor(notification.status ?? '')}>
                       {notification.status === 'sent'
                         ? (isArabic ? "تم الإرسال" : "Sent")
-                        : (isArabic ? "فشل" : "Failed")}
+                        : notification.status === 'failed'
+                          ? (isArabic ? "فشل" : "Failed")
+                          : (isArabic ? "غير معروف" : "Unknown")}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    {notification.type === 'specific' && notification.userIds?.length
+                    {notification.userIds && notification.userIds.length > 0
                       ? `${notification.userIds.length} ${isArabic ? "مستخدم" : "users"}`
                       : ""
                     }

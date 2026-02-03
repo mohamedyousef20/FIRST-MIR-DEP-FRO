@@ -32,10 +32,10 @@ export function SendNotification({ onNotificationSent }: SendNotificationProps) 
 
     try {
       // Format the data for the API
-      const notificationData = {
+      const notificationData: Parameters<typeof notificationService.sendNotification>[0] = {
         title: formData.title,
         message: formData.message,
-        type: formData.type,
+        type: formData.type === 'all' ? 'ALL_USERS' : 'CUSTOM',
         userIds: formData.type === 'specific' ? formData.userIds : undefined
       };
 

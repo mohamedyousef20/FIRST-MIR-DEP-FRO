@@ -24,6 +24,8 @@ interface CategoriesTabProps {
     handleEditCategory: (category: any) => void;
     handleDeleteCategory: (categoryId: string) => void;
     isArabic: boolean;
+    showSpinner?: boolean;
+    fetchCategories?: () => Promise<any>;
 }
 
 export function CategoriesTab({
@@ -39,20 +41,22 @@ export function CategoriesTab({
     handleCreateCategory,
     handleEditCategory,
     handleDeleteCategory,
+    showSpinner,
+    fetchCategories,
     isArabic
 }: CategoriesTabProps) {
     const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setNewCategory(prev => ({
+        setNewCategory((prev: Record<string, unknown>) => ({
             ...prev,
             [name]: value
         }));
     };
 
     const handleStatusChange = (value: string) => {
-        setNewCategory(prev => ({
+        setNewCategory((prev: Record<string, unknown>) => ({
             ...prev,
             status: value
         }));

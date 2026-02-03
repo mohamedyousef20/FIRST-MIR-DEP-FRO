@@ -450,8 +450,7 @@ export function CartPage() {
             </div>
             <Progress
               value={freeShippingProgress}
-              className="h-2 bg-amber-100"
-              indicatorClassName="bg-gradient-to-r from-blue-500 to-blue-600"
+              className="h-2 bg-amber-100 [&_*]:bg-gradient-to-r [&_*]:from-blue-500 [&_*]:to-blue-600"
             />
           </div>
         </div>
@@ -471,7 +470,7 @@ export function CartPage() {
               onClick={() => window.location.reload()}
               className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
             >
-              {t("retry")}
+              {(t as any)("retry")}
             </Button>
           </div>
         ) : cartItems.length === 0 ? (

@@ -30,6 +30,7 @@ import { categoryService } from "@/lib/api"
 
 // Define Product type
 interface Product {
+  brand?: string | { _id: string; name: string };
   _id: string;
   title: string;
   description: string;
@@ -91,6 +92,7 @@ export default function CategoryProductsGrid() {
   const categoryId = Array.isArray(rawCategoryParam) ? rawCategoryParam[0] : rawCategoryParam;
 
   const [products, setProducts] = useState<Product[]>([]);
+  const [brands, setBrands] = useState<{ id: string; name: string; count: number }[]>([]);
   const [category, setCategory] = useState<any>(null);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState([0, 2000]);
@@ -120,7 +122,7 @@ export default function CategoryProductsGrid() {
 
         // Fetch products for this category
         await fetchCategoryProducts();
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching category data:", error);
         setError(language === "ar" ? "خطأ في جلب بيانات الفئة" : "Error fetching category data");
         toast.error(language === "ar" ? "خطأ في جلب بيانات الفئة" : "Error fetching category data");
@@ -151,11 +153,26 @@ export default function CategoryProductsGrid() {
       const response = await categoryService.getProductsByCategory(categoryId, params);
       //console.log(response, 're')
       if (response.data) {
-        setProducts(response.data.products || []);
-        setTotalProducts(response.data.pagination?.total || 0);
+        const fetchedProducts: Product[] = response.data.products || [];
+        setProducts(fetchedProducts);
+
+        // Derive brands list with counts
+        const brandMap: Record<string, { id: string; name: string; count: number }> = {};
+        fetchedProducts.forEach((p) => {
+          const brandName = typeof p.brand === "string" ? p.brand : p.brand?.name;
+          if (brandName) {
+            if (!brandMap[brandName]) {
+              brandMap[brandName] = { id: brandName, name: brandName, count: 0 };
+            }
+            brandMap[brandName].count += 1;
+          }
+        });
+        setBrands(Object.values(brandMap));
+
+        setTotalProducts(response.data.pagination?.total || fetchedProducts.length);
         setTotalPages(response.data.pagination?.pages || 1);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching category products:", error);
       setError(language === "ar" ? "خطأ في جلب المنتجات" : "Error fetching products");
       toast.error(language === "ar" ? "خطأ في جلب المنتجات" : "Error fetching products");
@@ -461,7 +478,7 @@ export default function CategoryProductsGrid() {
                             className="object-cover transition-transform group-hover:scale-105"
                           />
                         </div>
-                        {product?.ratings?.average > 4.5 && (
+                        {(product.ratings?.average ?? 0) > 4.5 && (
                           <Badge className="absolute top-2 right-2 bg-red-500 hover:bg-red-600">
                             {language === "ar" ? "مميز" : "Top Rated"}
                           </Badge>

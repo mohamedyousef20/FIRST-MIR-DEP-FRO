@@ -29,6 +29,7 @@ interface Coupon {
 }
 
 interface CouponsTabProps {
+    [key: string]: unknown;
     coupons: Coupon[];
     isArabic: boolean;
     loading?: boolean;
@@ -125,7 +126,7 @@ export function CouponsTab({
         }
 
         return {
-            variant: "success" as const,
+            variant: "default" as const,
             text: isArabic ? "نشط" : "Active",
             className: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
         };

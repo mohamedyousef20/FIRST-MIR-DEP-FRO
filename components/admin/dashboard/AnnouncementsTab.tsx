@@ -26,6 +26,7 @@ interface AnnouncementsTabProps {
     handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleRemoveImage: () => void;
     imageUrl: string;
+    fetchAnnouncements?: () => Promise<any>;
     setImageUrl: (url: string) => void;
     isArabic: boolean;
 }
@@ -46,6 +47,7 @@ export function AnnouncementsTab({
     handleImageUpload,
     handleRemoveImage,
     imageUrl,
+    fetchAnnouncements,
     setImageUrl,
     isArabic
 }: AnnouncementsTabProps) {

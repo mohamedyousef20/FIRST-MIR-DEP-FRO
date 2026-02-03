@@ -58,7 +58,7 @@ export default function ReturnsPage() {
                     console.error('No data found in response:', response);
                     toast.error('حدث خطأ أثناء جلب طلبات الإرجاع');
                 }
-            } catch (error) {
+            } catch (error: any) {
                 console.error('Error fetching returns:', error);
                 toast.error(error instanceof Error ? error.message : 'فشل في تحميل طلبات الإرجاع');
             } finally {
@@ -118,7 +118,7 @@ export default function ReturnsPage() {
             await returnService.deleteReturnRequest(returnId);
             setReturns(returns.filter(r => r._id !== returnId));
             toast.success('تم حذف طلب الإرجاع بنجاح');
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error deleting return:', error);
             toast.error('فشل في حذف طلب الإرجاع');
         }
@@ -200,14 +200,14 @@ export default function ReturnsPage() {
                                     <div>
                                         <p className="text-sm text-gray-500">طلب إرجاع #{returnRequest._id.slice(-6).toUpperCase()}</p>
                                         <p className="text-sm text-gray-500">
-                                            الطلب الأصلي: #{returnRequest.order._id.slice(-6)}
+                                            الطلب الأصلي: #{returnRequest.order.slice(-6)}
                                         </p>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(returnRequest.status)}`}>
                                             {getStatusText(returnRequest.status)}
                                         </span>
-                                        {returnRequest.status === 'processed' && returnRequest.deleteAt && (
+                                        {returnRequest.status === 'finished' && returnRequest.deleteAt && (
                                             <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full">
                                                 سينتهي بعد {format(new Date(returnRequest.deleteAt), 'yyyy/MM/dd')}
                                             </span>
