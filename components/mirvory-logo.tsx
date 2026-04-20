@@ -27,7 +27,7 @@ export default function MirvoryLogo({ size = "default" }: { size?: Size }) {
       >
         {/* MIR */}
         <span className="text-white transition-all duration-300 group-hover:opacity-90">
-          MIR
+          MI
         </span>
 
         {/* V */}
