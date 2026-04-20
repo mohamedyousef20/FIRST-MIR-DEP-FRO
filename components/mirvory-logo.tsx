@@ -1,39 +1,36 @@
 import React from 'react';
 
-const MirvoryLogo = ({ className = "" }) => {
+const MirvoryShoesLogo = ({ className = "" }) => {
   return (
     <div className={`flex items-center gap-3 group cursor-pointer ${className}`}>
-      {/* الجزء البصري: يدمج بين حرف M وشكل الموشور أو البلورة الكيميائية */}
-      <div className="relative flex items-center justify-center w-11 h-11">
-        {/* المربع المائل كخلفية لإعطاء طابع هندسي */}
-        <div className="absolute inset-0 bg-slate-900 rounded-xl rotate-6 group-hover:rotate-0 transition-all duration-500 ease-in-out"></div>
+      {/* الجزء البصري: يرمز لشكل حذاء رياضي من الجانب أو أثر الخطوات */}
+      <div className="relative flex items-center justify-center w-12 h-12">
+        {/* خلفية بتأثير الحذاء الرياضي */}
+        <div className="absolute inset-0 bg-black rounded-[14px] skew-x-3 group-hover:skew-x-0 transition-all duration-500"></div>
         
-        {/* الرمز: مثلثان متداخلان يشكلان حرف M مع رابطة كيميائية */}
+        {/* الرمز: حرف M مصمم ليشبه أربطة الحذاء أو علامة السرعة */}
         <svg 
           viewBox="0 0 24 24" 
-          className="w-6 h-6 text-white z-10 fill-none stroke-current stroke-[2.5]"
+          className="w-7 h-7 text-white z-10 fill-none stroke-current stroke-[2.5]"
           strokeLinecap="round" 
           strokeLinejoin="round"
         >
-          <path d="M3 20V4l9 12 9-12v16" />
-          <circle cx="12" cy="16" r="1.5" className="fill-primary stroke-none" />
+          <path d="M4 18l4-12 4 12 4-12 4 12" />
+          <line x1="12" y1="14" x2="15" y2="14" className="stroke-primary" />
         </svg>
       </div>
 
-      {/* الجزء النصي */}
-      <div className="flex flex-col leading-tight">
-        <span className="text-2xl font-black tracking-tight text-slate-900">
-          MIRVORY
+      {/* النص */}
+      <div className="flex flex-col">
+        <span className="text-2xl font-black tracking-tighter text-black leading-none">
+          MIRVORY<span className="text-primary">.</span>
         </span>
-        <div className="flex items-center gap-1.5">
-          <span className="h-[2px] w-4 bg-primary rounded-full"></span>
-          <span className="text-[9px] font-extrabold text-slate-500 tracking-[0.25em] uppercase">
-            Industrial Supply
-          </span>
-        </div>
+        <span className="text-[10px] font-bold text-slate-400 tracking-[0.3em] uppercase">
+          Sneaker Lab
+        </span>
       </div>
     </div>
   );
 };
 
-export default MirvoryLogo;
+export default MirvoryShoesLogo;
