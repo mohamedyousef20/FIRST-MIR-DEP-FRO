@@ -1,93 +1,63 @@
-"use client"
-import { useTheme } from "next-themes"
-import { useState, useEffect } from "react"
-import Image from "next/image"
+"use client";
 
-const MirvoryLogo = ({
-  className = "",
-  animated = true,
-  width = 200,
-  height = 60,
-  priority = false
-}: {
-  className?: string;
-  animated?: boolean;
-  width?: number;
-  height?: number;
-  priority?: boolean;
-}) => {
-  const { theme } = useTheme()
-  const isDarkMode = theme === "dark"
-  const [isHovered, setIsHovered] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
+import React from "react";
 
-  // Handle SSR
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
+type Size = "sm" | "default" | "lg";
 
-  // Animation control
-  const isAnimated = animated && isMounted
-  const animationClass = isAnimated ? "transition-all duration-300 ease-in-out" : ""
+export default function MirvoryLogo({ size = "default" }: { size?: Size }) {
+  const sizeMap = {
+    sm: "text-4xl",
+    default: "text-7xl",
+    lg: "text-9xl",
+  };
 
   return (
-    <div
-      className={`relative ${className}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Logo Container */}
-      <div className={`relative ${animationClass}`}>
-        {/* Decorative glow effect */}
-        {isAnimated && (
-          <div
-            className={`absolute inset-0 rounded-lg ${animationClass}`}
-            style={{
-              background: isHovered
-                ? 'radial-gradient(circle, rgba(239, 68, 68, 0.1) 0%, transparent 70%)'
-                : 'transparent',
-              filter: isHovered ? 'blur(8px)' : 'none',
-              transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-              zIndex: -1
-            }}
-          />
-        )}
+    <div className="flex items-center justify-center bg-black w-full min-h-screen">
+      <span
+        className={`
+          flex items-center
+          ${sizeMap[size]}
+          font-black uppercase
+          select-none group cursor-default
+        `}
+        style={{
+          fontFamily: "'Arial Black', 'Impact', sans-serif",
+          letterSpacing: "-0.02em",
+        }}
+      >
+        {/* MIR */}
+        <span className="text-white transition-all duration-300 group-hover:opacity-90">
+          MIR
+        </span>
 
-        {/* Main Logo Image */}
-        <Image
-          src="https://res.cloudinary.com/dkmrrisek/image/upload/v1770138944/ChatGPT_Image_3_%D9%81%D8%A8%D8%B1%D8%A7%D9%8A%D8%B1_2026_07_14_42_%D9%85_niyibz.png" // You'll need to place your image in the public folder
-          alt="Mirvory Logo"
-          width={width}
-          height={height}
-          priority={priority}
-          className={`
-            ${animationClass}
-            ${isAnimated ? 'hover:scale-105' : ''}
-            ${isDarkMode ? 'filter brightness-110' : ''}
-          `}
-          style={{
-            transform: isHovered && isAnimated ? 'translateY(-2px)' : 'none',
-            filter: isDarkMode
-              ? (isHovered ? 'brightness(1.2) drop-shadow(0 4px 8px rgba(239, 68, 68, 0.3))' : 'brightness(1.1)')
-              : (isHovered ? 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2))' : 'none')
-          }}
-        />
+        {/* V */}
+        <span
+          className="text-white transition-all duration-300 group-hover:opacity-90"
+          style={{ display: "inline-block", transform: "skewX(-4deg)" }}
+        >
+          V
+        </span>
 
-        {/* Optional animated underline */}
-        {isAnimated && (
-          <div
-            className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 ${animationClass}`}
-            style={{
-              width: isHovered ? '80%' : '0%',
-              height: '2px',
-              background: 'linear-gradient(90deg, transparent, #ef4444, transparent)',
-              opacity: isHovered ? 0.8 : 0
-            }}
-          />
-        )}
-      </div>
+        {/* O + Motion */}
+        <span className="relative inline-flex items-center mx-1">
+          {/* Motion lines */}
+          <span className="absolute right-full mr-1 flex flex-col justify-center gap-[3px] pointer-events-none">
+            <span className="h-[3px] w-6 bg-red-600 rounded-full transition-all duration-300 group-hover:w-8" />
+            <span className="h-[3px] w-4 bg-red-600 rounded-full transition-all duration-300 group-hover:w-6" />
+            <span className="h-[3px] w-2 bg-red-600 rounded-full transition-all duration-300 group-hover:w-4" />
+          </span>
+
+          {/* O */}
+          <span className="text-red-600 transition-all duration-300 group-hover:text-red-500 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)]">
+            O
+          </span>
+        </span>
+
+        {/* RY */}
+        <span className="text-white transition-all duration-300 group-hover:opacity-90">
+          RY
+        </span>
+      </span>
     </div>
-  )
+  );
 }
-
-export default MirvoryLogo
