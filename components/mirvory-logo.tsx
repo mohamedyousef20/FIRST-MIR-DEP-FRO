@@ -1,78 +1,32 @@
-export default function MirvoryLogo({ size = 'lg' }: { size?: 'sm' | 'md' | 'lg' }) {
-  const sizeClasses = {
-    sm: 'text-4xl',
-    md: 'text-6xl',
-    lg: 'text-8xl',
-  };
+import React from 'react';
 
+const MirvoryLogo = ({ className = "" }) => {
   return (
-    <div className="flex items-center justify-center bg-black min-h-screen">
-      <div
-        className={`
-          flex items-center
-          font-black tracking-tighter
-          ${sizeClasses[size]}
-          select-none
-          group
-          cursor-default
-        `}
-        style={{ fontFamily: "'Arial Black', 'Helvetica Neue', sans-serif" }}
-      >
-        {/* MIR */}
-        <span
-          className="text-white transition-colors duration-300 group-hover:text-gray-100"
-          style={{ letterSpacing: '-0.02em' }}
-        >
-          MIR
+    <div className={`flex items-center gap-2 group cursor-pointer ${className}`}>
+      {/* الجزء البصري: يرمز للرابطة الكيميائية أو التفاعل */}
+      <div className="relative flex items-center justify-center w-10 h-10">
+        {/* الدائرة الخلفية */}
+        <div className="absolute inset-0 bg-primary/10 rounded-xl rotate-3 group-hover:rotate-12 transition-transform duration-300"></div>
+        
+        {/* أيقونة تعبيرية بسيطة (دائرتان متصلتان) */}
+        <div className="relative flex items-center">
+          <div className="w-4 h-4 rounded-full border-2 border-primary bg-white z-10"></div>
+          <div className="w-3 h-[2px] bg-primary -mx-1"></div>
+          <div className="w-4 h-4 rounded-full bg-primary"></div>
+        </div>
+      </div>
+
+      {/* الجزء النصي */}
+      <div className="flex flex-col leading-none">
+        <span className="text-xl font-black tracking-tighter text-slate-900">
+          KEEMA<span className="text-primary">LINK</span>
         </span>
-
-        {/* V */}
-        <span
-          className="text-white transition-colors duration-300 group-hover:text-gray-100"
-          style={{ letterSpacing: '-0.02em' }}
-        >
-          V
-        </span>
-
-        {/* Speed lines + O wrapper */}
-        <span className="relative inline-flex items-center justify-center">
-          {/* Speed lines before O */}
-          <span
-            className="absolute flex flex-col justify-center gap-[3px] transition-all duration-300 group-hover:gap-[4px]"
-            style={{ right: '78%', top: '50%', transform: 'translateY(-50%)' }}
-            aria-hidden="true"
-          >
-            <span
-              className="block bg-red-600 rounded-full transition-all duration-300 group-hover:w-[1.1em]"
-              style={{ height: '3px', width: '0.85em' }}
-            />
-            <span
-              className="block bg-red-600 rounded-full transition-all duration-300 group-hover:w-[0.9em]"
-              style={{ height: '3px', width: '0.65em' }}
-            />
-            <span
-              className="block bg-red-600 rounded-full transition-all duration-300 group-hover:w-[0.7em]"
-              style={{ height: '3px', width: '0.45em' }}
-            />
-          </span>
-
-          {/* O in red */}
-          <span
-            className="text-red-600 transition-all duration-300 group-hover:text-red-500"
-            style={{ letterSpacing: '-0.02em' }}
-          >
-            O
-          </span>
-        </span>
-
-        {/* RY */}
-        <span
-          className="text-white transition-colors duration-300 group-hover:text-gray-100"
-          style={{ letterSpacing: '-0.02em' }}
-        >
-          RY
+        <span className="text-[10px] font-bold text-slate-400 tracking-[0.2em] uppercase mr-0.5">
+          Chemical Solutions
         </span>
       </div>
     </div>
   );
-}
+};
+
+export default MirvoryLogo;
