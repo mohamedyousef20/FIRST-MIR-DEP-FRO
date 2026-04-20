@@ -1,78 +1,39 @@
-export default function MirvoryLogo({ size = 'lg' }: { size?: 'sm' | 'md' | 'lg' }) {
-  const sizeClasses = {
-    sm: 'text-4xl',
-    md: 'text-6xl',
-    lg: 'text-8xl',
-  };
+import React from 'react';
 
+const MirvoryLogo = ({ className = "" }) => {
   return (
-    <div className="flex items-center justify-center bg-black min-h-screen">
-      <div
-        className={`
-          flex items-center
-          font-black tracking-tighter
-          ${sizeClasses[size]}
-          select-none
-          group
-          cursor-default
-        `}
-        style={{ fontFamily: "'Arial Black', 'Helvetica Neue', sans-serif" }}
-      >
-        {/* MIR */}
-        <span
-          className="text-white transition-colors duration-300 group-hover:text-gray-100"
-          style={{ letterSpacing: '-0.02em' }}
+    <div className={`flex items-center gap-3 group cursor-pointer ${className}`}>
+      {/* الجزء البصري: يدمج بين حرف M وشكل الموشور أو البلورة الكيميائية */}
+      <div className="relative flex items-center justify-center w-11 h-11">
+        {/* المربع المائل كخلفية لإعطاء طابع هندسي */}
+        <div className="absolute inset-0 bg-slate-900 rounded-xl rotate-6 group-hover:rotate-0 transition-all duration-500 ease-in-out"></div>
+        
+        {/* الرمز: مثلثان متداخلان يشكلان حرف M مع رابطة كيميائية */}
+        <svg 
+          viewBox="0 0 24 24" 
+          className="w-6 h-6 text-white z-10 fill-none stroke-current stroke-[2.5]"
+          strokeLinecap="round" 
+          strokeLinejoin="round"
         >
-          MIR
-        </span>
+          <path d="M3 20V4l9 12 9-12v16" />
+          <circle cx="12" cy="16" r="1.5" className="fill-primary stroke-none" />
+        </svg>
+      </div>
 
-        {/* V */}
-        <span
-          className="text-white transition-colors duration-300 group-hover:text-gray-100"
-          style={{ letterSpacing: '-0.02em' }}
-        >
-          V
+      {/* الجزء النصي */}
+      <div className="flex flex-col leading-tight">
+        <span className="text-2xl font-black tracking-tight text-slate-900">
+          MIRVORY
         </span>
-
-        {/* Speed lines + O wrapper */}
-        <span className="relative inline-flex items-center justify-center">
-          {/* Speed lines before O */}
-          <span
-            className="absolute flex flex-col justify-center gap-[3px] transition-all duration-300 group-hover:gap-[4px]"
-            style={{ right: '78%', top: '50%', transform: 'translateY(-50%)' }}
-            aria-hidden="true"
-          >
-            <span
-              className="block bg-red-600 rounded-full transition-all duration-300 group-hover:w-[1.1em]"
-              style={{ height: '3px', width: '0.85em' }}
-            />
-            <span
-              className="block bg-red-600 rounded-full transition-all duration-300 group-hover:w-[0.9em]"
-              style={{ height: '3px', width: '0.65em' }}
-            />
-            <span
-              className="block bg-red-600 rounded-full transition-all duration-300 group-hover:w-[0.7em]"
-              style={{ height: '3px', width: '0.45em' }}
-            />
+        <div className="flex items-center gap-1.5">
+          <span className="h-[2px] w-4 bg-primary rounded-full"></span>
+          <span className="text-[9px] font-extrabold text-slate-500 tracking-[0.25em] uppercase">
+            Industrial Supply
           </span>
-
-          {/* O in red */}
-          <span
-            className="text-red-600 transition-all duration-300 group-hover:text-red-500"
-            style={{ letterSpacing: '-0.02em' }}
-          >
-            O
-          </span>
-        </span>
-
-        {/* RY */}
-        <span
-          className="text-white transition-colors duration-300 group-hover:text-gray-100"
-          style={{ letterSpacing: '-0.02em' }}
-        >
-          RY
-        </span>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default MirvoryLogo;
